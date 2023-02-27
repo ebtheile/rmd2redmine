@@ -1,0 +1,6 @@
+# RMarkdown and rmd2redmine output
+*.redmine
+*.pdf
+*.png
+*.html
+
