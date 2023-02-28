@@ -1,6 +1,6 @@
-# RMarkdown and rmd2redmine output
+# RStudio, RMarkdown and rmd2redmine output
 *.redmine
 *.pdf
 *.png
 *.html
-
+*.Rhistory
