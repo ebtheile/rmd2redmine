@@ -10,6 +10,11 @@ for pdf in $pdf_files
 do
 pngfile=`echo "$pdf" | sed 's/\.\w*$//'`
 
+# Does the output dir exist?
+if [ ! -d pngs ]; then
+  mkdir pngs
+fi
+
 if [ ! -e pngs/$pngfile-1.png ]
 then
 pdftocairo -png pdfs/"$pdf" pngs/$pngfile
