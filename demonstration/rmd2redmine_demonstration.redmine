@@ -1,0 +1,85 @@
+h1. RMarkdown to redmine (textile format) converter
+
+h2. Overview
+
+The converter supports:
+
+* Different levels of headings
+* Plain text
+* Code chunks
+* <code>Inline code/monospace</code>
+* "Inline links":https://www.github.com
+* Lists
+## Nested lists
+## Including different styles
+*** No matter how deeply they are nested
+**** At all
+* Figures
+* Tables
+* Horizontal rules (separators)
+* *Bold* and _italic_ formatting
+
+h2. Working with figures
+
+How to use this script if your RMarkdown includes figures:
+
+# Make sure your RMarkdown and rmd2redmine.sh are in the same directory
+# Your script must store figures in <code>./pdfs/</code>
+# The directory must also contain a folder named <code>pngs</code>. This is where the redmine-compatible pngs will be stored.
+# Figures must follow the naming convention <code>[name of script][counter].pdf</code>, e.g., my_analysis_01.pdf, but you may add a description before the counter
+# The output of your RMarkdown must be an html document
+# When your RMarkdown ensures all the above, call <code>$ ./rmd2redmine.sh [name of script].Rmd</code> from the system terminal. The script will
+## Knit the document to html
+## Convert the figures from PDF to PNG
+## Create a new .redmine file from the contents of the html file
+# Now you only need to copy-paste the .redmine contents into your redmine update and upload the PNGs
+
+h2. Examples
+
+h3. Figures
+
+!{width:672px}rmd2redmine_demonstration_01-1.png!
+
+h3. Tables
+
+This table was typed manually in RMarkdown syntax. Blank cells intentionally left blank.
+
+|_.Lorem |_.ipsum  |
+| dolor | sit |
+| amet |  |
+| consetetur | sadipscing |
+|  | elitr |
+
+
+---
+
+Whereas this table is contained in a code chunk.
+
+<pre class="r"><code># Here is an example code chunk with output
+
+head(iris)</code></pre>
+
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+
+---
+
+If you don’t like code chunks, but like automation, pass tabular data to knitr::kable().
+
+<pre class="r"><code># This code chunk could also have been hidden so that only the output is displayed.
+# To achieve that, use the chunk option include=FALSE
+
+knitr::kable(head(iris))</code></pre>
+
+|_.Sepal.Length |_.Sepal.Width |_.Petal.Length |_.Petal.Width |_.Species  |
+| 5.1 | 3.5 | 1.4 | 0.2 | setosa |
+| 4.9 | 3 | 1.4 | 0.2 | setosa |
+| 4.7 | 3.2 | 1.3 | 0.2 | setosa |
+| 4.6 | 3.1 | 1.5 | 0.2 | setosa |
+| 5 | 3.6 | 1.4 | 0.2 | setosa |
+| 5.4 | 3.9 | 1.7 | 0.4 | setosa |
