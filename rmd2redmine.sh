@@ -3,26 +3,6 @@
 echo 'Knitting document...'
 Rscript -e "rmarkdown::render(\"$1\", quiet = T)"
 
-echo 'Converting figures...'
-pdf_files=`ls pdfs | grep \\.pdf$`
-for pdf in $pdf_files
-
-do
-pngfile=`echo "$pdf" | sed 's/\.\w*$//'`
-
-# Does the output dir exist?
-if [ ! -d pngs ]; then
-  mkdir pngs
-fi
-
-if [ ! -e pngs/$pngfile-1.png ]
-then
-pdftocairo -png pdfs/"$pdf" pngs/$pngfile
-fi
-
-done
-
-
 echo "fileNameRmd = commandArgs(trailingOnly = T)[1]
 
 library(stringr)
@@ -31,7 +11,6 @@ library(rvest)
 
 reportName = str_remove(fileNameRmd, '\\\\.Rmd')
 fileName = paste0(reportName, '.html')
-figures = list.files('pdfs', pattern = reportName)
 
 # Set up helper functions
 df_to_textile = function(x) {
@@ -117,9 +96,16 @@ for (i in seq_along(elements)) {
     'h6' = {redminecontent[i] = paste('h6.', html_text2(elements[i]))},
     'p' = {redminecontent[i] = html_text2(elements[i])},
     'img' = {
+      if (Negate(dir.exists)('pngs')) {
+        dir.create('pngs')
+      }
+      child = html_children(elements[i])
+      src = str_split(html_attr(child, 'src'), ',')[[1]]
+      pngName = paste0(reportName, '_', sprintf('%02d', figure_counter), '.png')
+      outconn = file(paste0('pngs/', pngName),'wb')
+      base64enc::base64decode(what = src[2], output = outconn)
+      close(outconn)
       figure_counter = figure_counter + 1
-      pdfName = figures[figure_counter]
-      pngName = paste0(str_remove(pdfName, '\\\\.pdf$'), '-1.png')
       redminecontent[i] = paste0('!{width:', html_attr(html_children(elements[i]), 'width'), 'px}', pngName, '!')
     },
     'table' = {redminecontent[i] = df_to_textile(as.data.frame(html_table(elements[i])))},

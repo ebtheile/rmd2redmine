@@ -52,10 +52,6 @@ ggplot(iris, aes(Sepal.Width, Petal.Width, col = Species)) +
   theme(text = element_text(size = 20))
 ```
 
-```{r save-example-plot, include=FALSE}
-ggsave("pdfs/rmd2redmine_demonstration_01.pdf")
-```
-
 ### Tables
 
 This table was typed manually in RMarkdown syntax. Blank cells intentionally left blank.
