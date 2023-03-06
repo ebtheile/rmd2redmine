@@ -12,33 +12,22 @@ The converter supports:
 * Lists
 ## Nested lists
 ## Including different styles
-*** No matter how deeply they are nested
-**** At all
-* Figures
+* Figures (are now handled automatically, no need to even save them)
 * Tables
 * Horizontal rules (separators)
 * *Bold* and _italic_ formatting
-
-h2. Working with figures
-
-How to use this script if your RMarkdown includes figures:
-
-# Make sure your RMarkdown and rmd2redmine.sh are in the same directory
-# Your script must store figures in <code>./pdfs/</code>
-# The directory must also contain a folder named <code>pngs</code>. This is where the redmine-compatible pngs will be stored.
-# Figures must follow the naming convention <code>[name of script][counter].pdf</code>, e.g., my_analysis_01.pdf, but you may add a description before the counter
-# The output of your RMarkdown must be an html document
-# When your RMarkdown ensures all the above, call <code>$ ./rmd2redmine.sh [name of script].Rmd</code> from the system terminal. The script will
-## Knit the document to html
-## Convert the figures from PDF to PNG
-## Create a new .redmine file from the contents of the html file
-# Now you only need to copy-paste the .redmine contents into your redmine update and upload the PNGs
 
 h2. Examples
 
 h3. Figures
 
+Here’s a figure based on iris.
+
 !{width:672px}rmd2redmine_demonstration_00.png!
+
+And here is one based on mtcars.
+
+!{width:672px}rmd2redmine_demonstration_01.png!
 
 h3. Tables
 
@@ -69,7 +58,7 @@ head(iris)</code></pre>
 
 ---
 
-If you don’t like code chunks, but like automation, pass tabular data to knitr::kable().
+If you don’t like code chunks, pass tabular data to knitr::kable().
 
 <pre class="r"><code># This code chunk could also have been hidden so that only the output is displayed.
 # To achieve that, use the chunk option include=FALSE

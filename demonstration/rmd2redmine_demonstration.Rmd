@@ -19,36 +19,31 @@ The converter supports:
 * Lists
     1. Nested lists
     1. Including different styles
-        * No matter how deeply they are nested
-            * At all
-* Figures
+* Figures (are now handled automatically, no need to even save them)
 * Tables
 * Horizontal rules (separators)
 * **Bold** and *italic* formatting
-
-## Working with figures
-
-How to use this script if your RMarkdown includes figures:
-
-1. Make sure your RMarkdown and rmd2redmine.sh are in the same directory
-1. Your script must store figures in `./pdfs/`
-1. The directory must also contain a folder named `pngs`. This is where the redmine-compatible pngs will be stored.
-1. Figures must follow the naming convention `[name of script][counter].pdf`, e.g., my_analysis_01.pdf, but you may add a description before the counter
-1. The output of your RMarkdown must be an html document
-1. When your RMarkdown ensures all the above, call `$ ./rmd2redmine.sh [name of script].Rmd` from the system terminal. The script will
-    1. Knit the document to html
-    1. Convert the figures from PDF to PNG
-    1. Create a new .redmine file from the contents of the html file
-1. Now you only need to copy-paste the .redmine contents into your redmine update and upload the PNGs
 
 ## Examples
 
 ### Figures
 
-```{r example-plot, echo=FALSE}
-ggplot(iris, aes(Sepal.Width, Petal.Width, col = Species)) +
+Here's a figure based on iris.
+
+```{r example-plot-1, echo=FALSE}
+ggplot(iris, aes(Sepal.Length, Petal.Length, col = Species)) +
   geom_point(size = 2) +
-  ggtitle('Example figure') +
+  ggtitle('Example iris') +
+  theme(text = element_text(size = 20))
+```
+
+And here is one based on mtcars.
+
+```{r example-plot-2, echo=FALSE}
+ggplot(mtcars, aes(mpg, hp, col = factor(gear))) +
+  geom_point(size = 2) +
+  labs(col = "gear") +
+  ggtitle('Example mtcars') +
   theme(text = element_text(size = 20))
 ```
 
@@ -75,7 +70,7 @@ head(iris)
 
 ---
 
-If you don't like code chunks, but like automation, pass tabular data to knitr::kable().
+If you don't like code chunks, pass tabular data to `knitr::kable()`.
 
 ```{r kable_demo}
 # This code chunk could also have been hidden so that only the output is displayed.
