@@ -1,7 +1,39 @@
 #! /usr/bin/bash
 
+
+libPath="not_set"
+rmdFile=""
+
+while getopts ':l:f:' opt; do
+  case $opt in
+    l)
+      libPath="$OPTARG"
+      ;;
+    f)
+      rmdFile="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Error: -${OPTARG} requires an argument."
+      exit 1
+      ;;
+  esac
+done
+
+
 echo 'Knitting document...'
-Rscript -e "rmarkdown::render(\"$1\", quiet = T)"
+if [ $libPath == "not_set" ]; then
+  Rscript -e "rmarkdown::render(\"$rmdFile\", quiet = T)"
+else
+  export R_LIBS_USER="$libPath"
+  Rscript -e "rmarkdown::render(\"$rmdFile\", quiet = T)"
+fi
+
+
+
 
 echo "fileNameRmd = commandArgs(trailingOnly = T)[1]
 
@@ -143,7 +175,7 @@ cat(redminecontent, file = paste0(reportName, '.redmine'))
 " > temporaryrscript.R
 
 echo 'Creating redmine update...'
-Rscript temporaryrscript.R "$1"
+Rscript temporaryrscript.R "$rmdFile"
 rm temporaryrscript.R
 
 echo 'Done!'
