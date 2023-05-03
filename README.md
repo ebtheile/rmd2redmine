@@ -21,6 +21,7 @@ Upon invocation, the script knits the RMarkdown file to html, extracts the figur
 
 Copy the contents of the `.redmine` file straight into your Redmine update, upload the automatically generated png figures and you're done.
 
+
 ### Working with figures
 
 In the most recent version of this script, figures are handled automatically. You don't even need to save them manually.
@@ -29,3 +30,10 @@ In the most recent version of this script, figures are handled automatically. Yo
 ## Demonstration
 
 The demonstration folder contains an example RMarkdown file and the output produced by `rmd2redmine.sh`.
+
+
+## TODO
+
+- Fix inline links not being converted
+- Add option to manually include pandoc install if not found automatically
+- Create branch which operates on htmls directly
