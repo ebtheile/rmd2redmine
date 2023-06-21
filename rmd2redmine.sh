@@ -2,15 +2,19 @@
 
 
 libPath="not_set"
+pandocPath="not_set"
 rmdFile=""
 
-while getopts ':l:f:' opt; do
+while getopts ':l:f:p:' opt; do
   case $opt in
     l)
       libPath="$OPTARG"
       ;;
     f)
       rmdFile="$OPTARG"
+      ;;
+    p)
+      pandocPath="$OPTARG"
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -24,14 +28,24 @@ while getopts ':l:f:' opt; do
 done
 
 
+
+
 echo 'Knitting document...'
-if [ $libPath == "not_set" ]; then
-  Rscript -e "rmarkdown::render(\"$rmdFile\", quiet = T)"
-else
+if [ $libPath != "not_set" ]; then
   export R_LIBS_USER="$libPath"
-  Rscript -e "rmarkdown::render(\"$rmdFile\", quiet = T)"
 fi
 
+if [ $pandocPath != "not_set" ]; then
+  export RSTUDIO_PANDOC="$pandocPath"
+fi
+
+pandocIsNull=$(Rscript -e 'cat(is.null(rmarkdown::find_pandoc()[[2]]))')
+if [ $pandocIsNull == "TRUE" ]; then
+  echo "Use the -p flag to provide the path to your pandoc installation. You can locate it via Sys.getenv('RSTUDIO_PANDOC')."
+  exit
+fi
+
+Rscript -e "rmarkdown::render(\"$rmdFile\", quiet = T)"
 
 
 
