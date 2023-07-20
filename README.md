@@ -1,4 +1,6 @@
-# Convert RMarkdown  to Redmine (Textile) format
+**THIS BRANCH WORKS WITH HTML INSTEAD OF RMD FILES AS INPUT**
+
+# Convert HTML to Redmine (Textile) format
 
 This script aims to near-automate Redmine updates.
 
@@ -8,32 +10,24 @@ This script aims to near-automate Redmine updates.
 Navigate to the directory containing the RMarkdown file to convert. Make sure rmd2redmine.sh is in the same directory. Then use the system terminal to execute:
 
 ```bash
-$ ./rmd2redmine.sh -f <RMarkdown file>
+$ ./rmd2redmine.sh -f <HTML file>
 ```
 
-If you're using a custom library (e.g. by using renv in a project), specify the path with the `-l` flag. In R, use `.libPaths()` to find the location of your library.
-
-```bash
-$ ./rmd2redmine.sh -l </library/path> -f <RMarkdown file>
-```
-
-Upon invocation, the script knits the RMarkdown file to html, extracts the figures and saves them as png files, and finally combines it all to a `.redmine` output file.
+Upon invocation, the script extracts the figures, saves them as png files and finally combines it all to a `.redmine` output file.
 
 Copy the contents of the `.redmine` file straight into your Redmine update, upload the automatically generated png figures and you're done.
 
 
 ### Working with figures
 
-In the most recent version of this script, figures are handled automatically. You don't even need to save them manually.
+Figures are handled automatically. You don't even need to save them manually.
 
 
 ## Demonstration
 
-The demonstration folder contains an example RMarkdown file and the output produced by `rmd2redmine.sh`.
+Relates to the main branch.
 
 
 ## TODO
 
 - Fix inline links not being converted
-- Add option to manually include pandoc install if not found automatically
-- Create branch which operates on htmls directly

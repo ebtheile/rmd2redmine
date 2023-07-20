@@ -1,20 +1,12 @@
 #! /usr/bin/bash
 
 
-libPath="not_set"
-pandocPath="not_set"
-rmdFile=""
+htmlFile=""
 
 while getopts ':l:f:p:' opt; do
   case $opt in
-    l)
-      libPath="$OPTARG"
-      ;;
     f)
-      rmdFile="$OPTARG"
-      ;;
-    p)
-      pandocPath="$OPTARG"
+      htmlFile="$OPTARG"
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -27,36 +19,13 @@ while getopts ':l:f:p:' opt; do
   esac
 done
 
-
-
-
-echo 'Knitting document...'
-if [ $libPath != "not_set" ]; then
-  export R_LIBS_USER="$libPath"
-fi
-
-if [ $pandocPath != "not_set" ]; then
-  export RSTUDIO_PANDOC="$pandocPath"
-fi
-
-pandocIsNull=$(Rscript -e 'cat(is.null(rmarkdown::find_pandoc()[[2]]))')
-if [ $pandocIsNull == "TRUE" ]; then
-  echo "Use the -p flag to provide the path to your pandoc installation. You can locate it via Sys.getenv('RSTUDIO_PANDOC')."
-  exit
-fi
-
-Rscript -e "rmarkdown::render(\"$rmdFile\", quiet = T)"
-
-
-
-echo "fileNameRmd = commandArgs(trailingOnly = T)[1]
+echo "fileName = commandArgs(trailingOnly = T)[1]
 
 library(stringr)
 library(xml2)
 library(rvest)
 
-reportName = str_remove(fileNameRmd, '\\\\.Rmd')
-fileName = paste0(reportName, '.html')
+reportName = str_remove(fileName, '\\\\.html')
 
 # Set up helper functions
 df_to_textile = function(x) {
@@ -189,7 +158,7 @@ cat(redminecontent, file = paste0(reportName, '.redmine'))
 " > temporaryrscript.R
 
 echo 'Creating redmine update...'
-Rscript temporaryrscript.R "$rmdFile"
+Rscript temporaryrscript.R "$htmlFile"
 rm temporaryrscript.R
 
 echo 'Done!'
