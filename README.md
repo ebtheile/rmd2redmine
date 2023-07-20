@@ -24,7 +24,7 @@ Copy the contents of the `.redmine` file straight into your Redmine update, uplo
 
 ### Working with figures
 
-In the most recent version of this script, figures are handled automatically. You don't even need to save them manually.
+Figures are handled automatically. You don't even need to save them manually.
 
 
 ## Demonstration
@@ -35,5 +35,3 @@ The demonstration folder contains an example RMarkdown file and the output produ
 ## TODO
 
 - Fix inline links not being converted
-- Add option to manually include pandoc install if not found automatically
-- Create branch which operates on htmls directly
