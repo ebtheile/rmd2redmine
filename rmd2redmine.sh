@@ -21,9 +21,14 @@ done
 
 echo "fileName = commandArgs(trailingOnly = T)[1]
 
-library(stringr)
-library(xml2)
-library(rvest)
+required_packages = c('stringr', 'xml2', 'rvest', 'base64enc')
+
+for (p in required_packages) {
+  if (!require(p)) {
+    install.packages(p)
+    library(p)
+  }
+}
 
 reportName = str_remove(fileName, '\\\\.html')
 
