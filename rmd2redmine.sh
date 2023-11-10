@@ -32,7 +32,7 @@ for (p in required_packages) {
 library(stringr)
 library(xml2)
 library(rvest)
-library(base64end)
+library(base64enc)
 
 reportName = str_remove(fileName, '\\\\.html')
 
