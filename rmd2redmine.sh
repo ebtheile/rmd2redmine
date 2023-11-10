@@ -24,7 +24,7 @@ echo "fileName = commandArgs(trailingOnly = T)[1]
 if (!require('stringr')) {
   install.packages('stringr')
 }
-if (!require('xlm2')) {
+if (!require('xml2')) {
   install.packages('xml2')
 }
 if (!require('rvest')) {
