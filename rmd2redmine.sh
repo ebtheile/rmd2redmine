@@ -21,12 +21,17 @@ done
 
 echo "fileName = commandArgs(trailingOnly = T)[1]
 
-required_packages = c('stringr', 'xml2', 'rvest', 'base64enc')
-
-for (p in required_packages) {
-  if (!require(p)) {
-    install.packages(p)
-  }
+if (!require('stringr')) {
+  install.packages('stringr')
+}
+if (!require('xlm2')) {
+  install.packages('xml2')
+}
+if (!require('rvest')) {
+  install.packages('rvest')
+}
+if (!require('base64enc')) {
+  install.packages('base64enc')
 }
 
 library(stringr)
