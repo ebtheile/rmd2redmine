@@ -1,0 +1,82 @@
+---
+title: "RMarkdown to redmine (textile format) converter"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+```
+
+## Overview
+
+The converter supports:
+
+* Different levels of headings
+* Plain text
+* Code chunks
+* `Inline code/monospace`
+* [Inline links](https://www.github.com)
+* Lists
+    1. Nested lists
+    1. Including different styles
+* Figures (are now handled automatically, no need to even save them)
+* Tables
+* Horizontal rules (separators)
+* **Bold** and *italic* formatting
+
+## Examples
+
+### Figures
+
+Here's a figure based on iris.
+
+```{r example-plot-1, echo=FALSE}
+ggplot(iris, aes(Sepal.Length, Petal.Length, col = Species)) +
+  geom_point(size = 2) +
+  ggtitle('Example iris') +
+  theme(text = element_text(size = 20))
+```
+
+And here is one based on mtcars.
+
+```{r example-plot-2, echo=FALSE}
+ggplot(mtcars, aes(mpg, hp, col = factor(gear))) +
+  geom_point(size = 2) +
+  labs(col = "gear") +
+  ggtitle('Example mtcars') +
+  theme(text = element_text(size = 20))
+```
+
+### Tables
+
+This table was typed manually in RMarkdown syntax. Blank cells intentionally left blank.
+
+| Lorem | ipsum |
+|---|---|
+|dolor|sit|
+|amet||
+|consetetur|sadipscing|
+||elitr|
+
+---
+
+Whereas this table is contained in a code chunk.
+
+```{r example-table}
+# Here is an example code chunk with output
+
+head(iris)
+```
+
+---
+
+If you don't like code chunks, pass tabular data to `knitr::kable()`.
+
+```{r kable_demo}
+# This code chunk could also have been hidden so that only the output is displayed.
+# To achieve that, use the chunk option include=FALSE
+
+knitr::kable(head(iris))
+```
+
+
